@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div *ngFor="let spectacle of spectacles | paginate: { itemsPerPage: pageSize, currentPage: currentPageNumber, totalItems: totalRecords } let i = index" class="col-md-4">
+      <div class="card text-white bg-dark">
+        <div class="card-body">
+          <h5 [routerLink]="['/spectacles', spectacle.id]" class="card-title" style="cursor:pointer;">{{spectacle.title}}</h5>
+          <p>Sessions: {{spectacle.sessions?.length}}</p>
+        </div>
+        <button class="btn btn-sm btn-danger" *ngIf="userService.isUserInRole('Administrator')" (click)="this.Delete(spectacle)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>

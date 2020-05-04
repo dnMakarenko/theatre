@@ -1,0 +1,29 @@
+<!--The content below is only a placeholder and can be replaced.-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand text-white">Theatre</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" routerLink="/spectacles">Spectacles <span class="sr-only"></span></a>
+        <a class="nav-item nav-link" routeLink="/adminpanel">Admin Panel</a>
+      </div>
+    </div>
+    <div class="btn-group" *ngIf="userService.isAuthenticated()">
+      <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{userService.currentUser.UserName}}
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" routerLink="/home">My Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="userService.onLogout()">Logout</a>
+      </div>
+    </div>
+    <div class="btn-group" *ngIf="!userService.isAuthenticated()">
+      <button class="btn btn-success my-2 my-sm-0" routerLink='/user/login' routerLinkActive='active'>Login</button>
+      <button class="btn btn-info my-2 my-sm-0" routerLink='/user/registration' routerLinkActive='active'>Register</button>
+    </div>
+  </nav>
+
+<router-outlet></router-outlet>

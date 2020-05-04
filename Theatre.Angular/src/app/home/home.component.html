@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="card m-5" *ngIf="currentUser">
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Username : </strong>{{currentUser.userName}}</li>
+      <li class="list-group-item"><strong>Email : </strong>{{currentUser.email}}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="currentUser?.reservations?.length !== 0" class="row">
+    <div class="col-md-12">
+      <h5>My reservations: {{currentUser?.reservations?.length}}</h5>
+    </div>
+    <div *ngFor="let reservation of currentUser?.reservations" class="col-md-4">
+      <div class="card text-white bg-dark">
+        <div class="card-body">
+          <p [routerLink]="['/spectacles', reservation.spectacleSession.spectacle.id]" style="cursor:pointer">{{reservation.spectacleSession.spectacle.title}}</p>
+          <p>Resered in: {{reservation.reservationDateTime}}</p>
+          <p>Session duration: {{reservation.spectacleSession.durationInMinutes}} minutes.</p>
+          <p>Session start date: {{reservation.spectacleSession.startDateTime}}</p>
+          <button class="btn btn-xs btn-danger">Cancel reserv</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

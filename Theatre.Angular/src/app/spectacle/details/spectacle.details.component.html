@@ -1,0 +1,59 @@
+<ng-template #createSessionModal let-modal>
+  <div class="wrapped-div">
+    <div class="tab-header text-center">
+      <h4>Add new spectacle session</h4>
+    </div>
+    <form #form='ngForm' class="mb-4" autocomplete="off" (submit)="PostSessionModal(form)">
+      <div class="form-group">
+        <label for="StartDateTime">Date start</label>
+        <div class="input-group">
+          <input #StartDateTime="ngModel" [(ngModel)]="sessionFormModel.StartDateTime" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Duration in minutes</label>
+        <input type="number" class="form-control" #DurationInMinutes="ngModel" name="DurationInMinutes" [(ngModel)]="sessionFormModel.DurationInMinutes" required>
+      </div>
+      <div class="form-group">
+        <label>Max tickets number</label>
+        <input type="number" class="form-control" #MaxNumberOfTickets="ngModel" name="MaxNumberOfTickets" [(ngModel)]="sessionFormModel.MaxNumberOfTickets" required>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button (click)="PostSessionModal()" class="btn btn-xs btn-success">Add</button>
+      <button (click)="CloseSessionModal()" class="btn btn-xs btn-danger">Cancel</button>
+    </div>
+  </div>
+</ng-template>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <h6>
+        Title: {{spectacle?.title}}
+      </h6>
+      <h6>
+        Id: {{spectacle?.id}}
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <button *ngIf="userService.isUserInRole('Administrator')" (click)="OpenSessionModal(createSessionModal, spectacle)" class="btn btn-sm btn-warning">Add spectacle session</button>
+  </div>
+  <div *ngIf="spectacle?.sessions?.length !== 0" class="row">
+    <div *ngFor="let session of spectacle?.sessions" class="col-md-4">
+      <div class="card text-white bg-dark">
+        <div class="card-body">
+          <p>Session date: {{session?.startDateTime}}</p>
+          <p>Duration: {{session?.durationInMinutes}} minutes.</p>
+          <p>Available tickets number: {{session?.maxNumberOfTickets-session?.reservations?.length}}</p>
+        </div>
+        <button *ngIf="userService.isAuthenticated()" (click)="Reserve(session)" class="btn btn-xs btn-success">Reserve</button>
+        <button *ngIf="!userService.isAuthenticated()" routerLink='/user/login' routerLinkActive='active' class="btn btn-xs btn-success">Reserve</button>
+      </div>
+    </div>
+  </div>
+</div>
